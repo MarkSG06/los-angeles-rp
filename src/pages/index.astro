@@ -1,11 +1,204 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// IMPORTS
+import Layout from "../layouts/Layout.astro";
+import Logo from "../assets/losangeleslogo.png";
+import BGHero from "../assets/bgHero.jpg";
 ---
 
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	body {
+		height: 100vh;
+		max-width: 1920px;
+		margin: 0;
+	}
+
+	.logoImg {
+		width: 90px;
+		height: auto;
+	}
+
+	.header {
+		width: 100%;
+		position: fixed;
+		display: flex;
+		justify-content: space-between;
+		background-color: transparent;
+		z-index: 10;
+	}
+
+	.hamburgerMenu {
+		align-content: center;
+		background-color: black;
+		padding: 0.5rem 1rem;
+		border-radius: 0 0 0 3rem;
+	}
+
+	.menu {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+	}
+
+	.hamburgerMenu svg {
+		width: 60px;
+		height: auto;
+		stroke: white;
+	}
+
+	.hero {
+		height: 200vh; /* Esto asegura scroll suficiente */
+		position: relative;
+		overflow: hidden;
+	}
+
+	.bgHero {
+		transform: scale(1.1);
+		will-change: transform;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		object-fit: cover;
+		z-index: 0;
+	}
+
+	.line {
+		fill: none;
+		stroke-width: 6;
+		transition:
+			stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+			stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.line1 {
+		stroke-dasharray: 60 207;
+	}
+	.line2 {
+		stroke-dasharray: 60 60;
+	}
+	.line3 {
+		stroke-dasharray: 60 207;
+	}
+	.opened .line1 {
+		stroke-dasharray: 90 207;
+		stroke-dashoffset: -134;
+	}
+	.opened .line2 {
+		stroke-dasharray: 1 60;
+		stroke-dashoffset: -30;
+	}
+	.opened .line3 {
+		stroke-dasharray: 90 207;
+		stroke-dashoffset: -134;
+	}
+	.intro {
+		height: 100vh;
+		background-color: #383838;
+		text-align: center;
+		padding-top: 20rem;
+		color: white;
+		font-size: 2rem;
+		transform: scale(1);
+	}
+</style>
+
 <Layout>
-	<Welcome />
+	<section class="header">
+		<div class="logo">
+			<img src={Logo.src} class="logoImg" />
+		</div>
+		<div class="hamburgerMenu">
+			<button
+				class="menu"
+				id="menu-toggle"
+				aria-label="Main Menu"
+				aria-expanded="false"
+			>
+				<svg viewBox="0 0 100 100">
+					<path
+						class="line line1"
+						d="M 20,29 H 80 
+               C 80,29 94.5,28.8 94.53,66.71 
+               C 94.54,77.98 90.97,81.67 85.26,81.67 
+               C 79.55,81.67 75,75 75,75 
+               L 25,25"
+					></path>
+					<path class="line line2" d="M 20,50 H 80"></path>
+					<path
+						class="line line3"
+						d="M 20,71 H 80 
+               C 80,71 94.5,71.18 94.53,33.29 
+               C 94.54,22.02 90.97,18.33 85.26,18.33 
+               C 79.55,18.33 75,25 75,25 
+               L 25,75"
+					></path>
+				</svg>
+			</button>
+		</div>
+	</section>
+
+	<section class="intro">
+		<h1>Los Angeles RP</h1>
+		<p>Aquí empieza tu historia, solo tu puedes escribirla.</p>
+	</section>
+	<section class="hero">
+		<img class="bgHero" src={BGHero.src} alt="Hero Background" />
+	</section>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const button = document.getElementById("menu-toggle");
+
+			button.addEventListener("click", function () {
+				this.classList.toggle("opened");
+				this.setAttribute(
+					"aria-expanded",
+					this.classList.contains("opened"),
+				);
+			});
+		});
+	</script>
+	<script>
+		import { gsap } from "gsap";
+		import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.to(".intro", {
+			scale: 50,
+			ease: "none",
+			scrollTrigger: {
+				trigger: ".intro",
+				start: "top top",
+				end: "+=100%",
+				scrub: true,
+				pin: true,
+				markers: false,
+			},
+		});
+	</script>
+	<script>
+		import { gsap } from "gsap";
+		import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.to(".bgHero", {
+			scale: 1,
+			ease: "none",
+			scrollTrigger: {
+				trigger: ".hero",
+				start: "top top",
+				end: "+=100%",
+				scrub: true,
+				pin: true,
+				markers: false,
+			},
+		});
+	</script>
 </Layout>
