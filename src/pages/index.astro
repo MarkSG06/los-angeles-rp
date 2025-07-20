@@ -1,110 +1,35 @@
 ---
-// IMPORTS
-import Layout from "../layouts/Layout.astro";
-import Logo from "../assets/losangeleslogo.png";
-import BGHero from "../assets/bgHero.jpg";
+import Layout from "@/layouts/Layout.astro";
+import Logo from "@/assets/losangeleslogo.png";
+import BGHero from "@/assets/bgHero.jpg";
 ---
 
 <style>
+	@import url(@/homepage/css/hamburger-menu.css);
+	@import url(@/homepage/css/header.css);
+	@import url(@/homepage/css/hero.css);
+
 	* {
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
 	}
+
 	body {
 		height: 100vh;
 		max-width: 1920px;
-		margin: 0;
-	}
-
-	.logoImg {
-		width: 90px;
-		height: auto;
-	}
-
-	.header {
-		width: 100%;
-		position: fixed;
-		display: flex;
-		justify-content: space-between;
-		background-color: transparent;
-		z-index: 10;
-	}
-
-	.hamburgerMenu {
-		align-content: center;
-		background-color: black;
-		padding: 0.5rem 1rem;
-		border-radius: 0 0 0 3rem;
-	}
-
-	.menu {
-		background-color: transparent;
-		border: none;
-		cursor: pointer;
-	}
-
-	.hamburgerMenu svg {
-		width: 60px;
-		height: auto;
-		stroke: white;
-	}
-
-	.hero {
-		height: 200vh; /* Esto asegura scroll suficiente */
-		position: relative;
-		overflow: hidden;
-	}
-
-	.bgHero {
-		transform: scale(1.1);
-		will-change: transform;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100vh;
-		object-fit: cover;
-		z-index: 0;
-	}
-
-	.line {
-		fill: none;
-		stroke-width: 6;
-		transition:
-			stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-			stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-	}
-	.line1 {
-		stroke-dasharray: 60 207;
-	}
-	.line2 {
-		stroke-dasharray: 60 60;
-	}
-	.line3 {
-		stroke-dasharray: 60 207;
-	}
-	.opened .line1 {
-		stroke-dasharray: 90 207;
-		stroke-dashoffset: -134;
-	}
-	.opened .line2 {
-		stroke-dasharray: 1 60;
-		stroke-dashoffset: -30;
-	}
-	.opened .line3 {
-		stroke-dasharray: 90 207;
-		stroke-dashoffset: -134;
-	}
-	.intro {
-		height: 100vh;
-		background-color: #383838;
-		text-align: center;
-		padding-top: 20rem;
+		margin: 0 auto;
+		overflow-x: hidden;
 		color: white;
-		font-size: 2rem;
-		transform: scale(1);
+		font-family: "GTA BOLD";
 	}
+	
+	.content {
+		height: 150vh;
+		background: linear-gradient(#000, #222);
+		padding: 2rem;
+	}
+	
 </style>
 
 <Layout>
@@ -141,13 +66,15 @@ import BGHero from "../assets/bgHero.jpg";
 			</button>
 		</div>
 	</section>
-
-	<section class="intro">
-		<h1>Los Angeles RP</h1>
-		<p>Aquí empieza tu historia, solo tu puedes escribirla.</p>
-	</section>
 	<section class="hero">
-		<img class="bgHero" src={BGHero.src} alt="Hero Background" />
+		<div class="siren-lights" style="z-index: 3;"></div>
+		<img class="bgHero" src={BGHero.src} style="z-index: 2;"/>
+		<img class="hero-title floating" src={Logo.src} style="z-index: 4;"/>
+	</section>
+
+	<section class="content">
+		<h2>Bienvenido a la experiencia más brutal</h2>
+		<p>Desliza para descubrir lo que te espera.</p>
 	</section>
 
 	<script>
@@ -164,41 +91,44 @@ import BGHero from "../assets/bgHero.jpg";
 		});
 	</script>
 	<script>
-		import { gsap } from "gsap";
-		import { ScrollTrigger } from "gsap/ScrollTrigger";
+		import gsap from "gsap";
+		import ScrollTrigger from "gsap/ScrollTrigger";
 
 		gsap.registerPlugin(ScrollTrigger);
 
-		gsap.to(".intro", {
-			scale: 50,
-			ease: "none",
-			scrollTrigger: {
-				trigger: ".intro",
-				start: "top top",
-				end: "+=100%",
-				scrub: true,
-				pin: true,
-				markers: false,
-			},
-		});
-	</script>
-	<script>
-		import { gsap } from "gsap";
-		import { ScrollTrigger } from "gsap/ScrollTrigger";
+		window.addEventListener("DOMContentLoaded", () => {
+			// Animación hero image
+			gsap.to(".bgHero", {
+				scale: 1.4,
+				opacity: 0,
+				filter: "blur(10px)",
+				scrollTrigger: {
+					trigger: ".hero",
+					start: "top top",
+					end: "bottom top",
+					scrub: true,
+				},
+			});
 
-		gsap.registerPlugin(ScrollTrigger);
+			// Entrada texto
+			gsap.to(".hero-title", {
+				opacity: 1,
+				y: 0,
+				duration: 1.5,
+				delay: 0.5,
+				ease: "power3.out",
+			});
 
-		gsap.to(".bgHero", {
-			scale: 1,
-			ease: "none",
-			scrollTrigger: {
-				trigger: ".hero",
-				start: "top top",
-				end: "+=100%",
-				scrub: true,
-				pin: true,
-				markers: false,
-			},
+			// Parallax efecto en título al hacer scroll
+			gsap.to(".hero-title", {
+				y: -100,
+				scrollTrigger: {
+					trigger: ".hero",
+					start: "top top",
+					end: "bottom top",
+					scrub: true,
+				},
+			});
 		});
 	</script>
 </Layout>

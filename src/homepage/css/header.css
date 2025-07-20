@@ -1,0 +1,36 @@
+.logoImg {
+    display: none;
+    width: 90px;
+    height: auto;
+    transform: scale(1.8);
+    margin-top: 0.5rem;
+    margin-left: 2rem;
+}
+
+.header {
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+    z-index: 10;
+}
+
+.hamburgerMenu {
+    align-content: center;
+    background-color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 0 3rem;
+}
+
+.menu {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburgerMenu svg {
+    width: 60px;
+    height: auto;
+    stroke: white;
+}

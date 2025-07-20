@@ -1,0 +1,117 @@
+.hero {
+	position: relative;
+	height: 100vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bgHero {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	transform-origin: center;
+}
+
+.bgHero img {
+	z-index: 2;
+}
+
+.hero-title {
+	width: 40rem;
+	height: auto;
+	letter-spacing: 0.2em;
+	opacity: 0;
+	transform: translateY(50px);
+	transition: all 0.3s ease-out;
+}
+
+.siren-lights {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 0;
+	/* Debajo del texto pero encima de la bgHero */
+}
+
+.siren-lights::before,
+.siren-lights::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0.2;
+	mix-blend-mode: screen;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+
+.siren-lights::before {
+	background: radial-gradient(circle at 20% 50%, red, transparent 50%);
+	animation-name: sirenRed;
+}
+
+.siren-lights::after {
+	background: radial-gradient(circle at 80% 50%, blue, transparent 50%);
+	animation-name: sirenBlue;
+}
+
+@keyframes sirenRed {
+
+	0%,
+	50%,
+	100% {
+		opacity: 0.1;
+	}
+
+	25% {
+		opacity: 0.6;
+	}
+
+	75% {
+		opacity: 0.3;
+	}
+}
+
+@keyframes sirenBlue {
+
+	0%,
+	50%,
+	100% {
+		opacity: 0.4;
+	}
+
+	25% {
+		opacity: 0.2;
+	}
+
+	75% {
+		opacity: 0.6;
+	}
+}
+
+@keyframes floatUpDown {
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-15px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+.hero-title.floating {
+	animation: floatUpDown 3s ease-in-out infinite;
+}
