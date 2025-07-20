@@ -1,19 +1,144 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/losangeleslogo.png" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Los Angeles RP</title>
-  </head>
-  <body>
-    <slot />
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/losangeleslogo.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Los Angeles RP</title>
+	</head>
+	<body>
+		<section class="header">
+			<div class="logo">
+				<img src="/src/assets/losangeleslogo.png" class="logoImg" />
+			</div>
+			<div class="hamburgerMenu">
+				<button
+					class="menu"
+					id="menu-toggle"
+					aria-label="Main Menu"
+					aria-expanded="false"
+				>
+					<svg viewBox="0 0 100 100">
+						<path
+							class="line line1"
+							d="M 20,29 H 80 
+               C 80,29 94.5,28.8 94.53,66.71 
+               C 94.54,77.98 90.97,81.67 85.26,81.67 
+               C 79.55,81.67 75,75 75,75 
+               L 25,25"
+						></path>
+						<path class="line line2" d="M 20,50 H 80"></path>
+						<path
+							class="line line3"
+							d="M 20,71 H 80 
+               C 80,71 94.5,71.18 94.53,33.29 
+               C 94.54,22.02 90.97,18.33 85.26,18.33 
+               C 79.55,18.33 75,25 75,25 
+               L 25,75"
+						></path>
+					</svg>
+				</button>
+			</div>
+		</section>
+		<div class="menuHide">
+			<div class="logoMenu">
+				<img src="/src/assets/losangeleslogoBG.png" />
+			</div>
+
+			<div class="rightPanel">
+				<div class="tabs">
+					<div class="tab"><h2>Roles</h2></div>
+					<div class="tab"><h2>Normativa</h2></div>
+					<div class="tab"><h2>Tráilers</h2></div>
+					<div class="tab"><h2>Como entrar</h2></div>
+				</div>
+
+				<div class="tab-content">
+					<div class="content" data-tab="Roles">
+						<ul>
+							<li>Ilegales</li>
+							<li>Legales</li>
+							<li>Negocios</li>
+							<li>Trabajos</li>
+						</ul>
+					</div>
+					<div class="content" data-tab="Normativa">
+						<p>Aquí va la normativa del servidor...</p>
+					</div>
+					<div class="content" data-tab="Tráilers">
+						<p>Videos, imágenes o enlaces a tráilers...</p>
+					</div>
+					<div class="content" data-tab="Como entrar">
+						<p>
+							Explicación paso a paso para entrar al servidor...
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<slot />
+	</body>
+	<script>
+		// Tabs funcionales
+		const tabs = document.querySelectorAll(".tab");
+		const contents = document.querySelectorAll(".tab-content .content");
+
+		tabs.forEach((tab) => {
+			tab.addEventListener("click", () => {
+				const selectedTab = tab.textContent.trim();
+
+				// Oculta todos los contenidos
+				contents.forEach((c) => {
+					c.style.display = "none";
+				});
+
+				// Elimina clase activa de todas las tabs
+				tabs.forEach((t) => t.classList.remove("active"));
+
+				// Muestra el contenido correspondiente
+				const target = document.querySelector(
+					`.content[data-tab="${selectedTab}"]`,
+				);
+				if (target) {
+					target.style.display = "block";
+				}
+
+				// Marca la tab como activa
+				tab.classList.add("active");
+			});
+		});
+
+		// Activa la primera tab por defecto
+		tabs[0].click();
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const button = document.getElementById("menu-toggle");
+			const menu = document.querySelector(".menuHide");
+
+			button.addEventListener("click", function () {
+				this.classList.toggle("opened");
+				const isOpened = this.classList.contains("opened");
+				this.setAttribute("aria-expanded", isOpened);
+				menu.classList.toggle("active");
+
+				// Desactiva scroll si el menú está activo
+				if (menu.classList.contains("active")) {
+					document.body.style.overflow = "hidden";
+				} else {
+					document.body.style.overflow = "auto";
+				}
+			});
+		});
+	</script>
 </html>
 
 <style>
-  @theme {
+	@import url(@/global/homepage/css/hamburger-menu.css);
+	@import url(@/global/homepage/css/header.css);
+	@theme {
 		--font-sans: "GTA", system-ui, sans-serif;
 	}
 	html,
@@ -27,10 +152,84 @@
 	}
 
 	@font-face {
-		font-family: 'GTA BOLD';
+		font-family: "GTA BOLD";
 		src: url("/fonts/gta-bold.woff") format("woff");
 		font-weight: bold;
 		font-style: normal;
 		font-display: swap;
+	}
+	.menuHide {
+		background-color: #101010;
+		display: none;
+		grid-template-columns: 1fr 1fr;
+		height: 100vh;
+		width: 100%;
+		position: fixed;
+		z-index: 9;
+	}
+
+	.menuHide.active {
+		display: grid;
+	}
+
+	.logoMenu img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.rightPanel {
+		display: flex;
+		flex-direction: column;
+		padding: 2rem;
+		overflow-y: auto;
+	}
+
+	.tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+		justify-content: center;
+		margin-bottom: 2rem;
+	}
+
+	.tab {
+		background-color: #f08703;
+		color: white;
+		height: 100px;
+		width: 200px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 12px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+		transition:
+			transform 0.2s ease,
+			background-color 0.3s ease;
+		cursor: pointer;
+		text-align: center;
+		font-size: 1rem;
+	}
+
+	.tab:hover {
+		transform: scale(1.05);
+		background-color: #e67602;
+	}
+
+	.tab.active {
+		outline: 2px solid white;
+	}
+
+	.tab-content {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+	}
+
+	.tab-content .content {
+		display: none;
+		max-width: 600px;
+		text-align: left;
 	}
 </style>

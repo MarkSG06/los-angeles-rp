@@ -5,9 +5,9 @@ import BGHero from "@/assets/bgHero.jpg";
 ---
 
 <style>
-	@import url(@/homepage/css/hamburger-menu.css);
-	@import url(@/homepage/css/header.css);
-	@import url(@/homepage/css/hero.css);
+	@import url(@/global/homepage/css/hamburger-menu.css);
+	@import url(@/global/homepage/css/header.css);
+	@import url(@/global/homepage/css/hero.css);
 
 	* {
 		margin: 0;
@@ -33,39 +33,6 @@ import BGHero from "@/assets/bgHero.jpg";
 </style>
 
 <Layout>
-	<section class="header">
-		<div class="logo">
-			<img src={Logo.src} class="logoImg" />
-		</div>
-		<div class="hamburgerMenu">
-			<button
-				class="menu"
-				id="menu-toggle"
-				aria-label="Main Menu"
-				aria-expanded="false"
-			>
-				<svg viewBox="0 0 100 100">
-					<path
-						class="line line1"
-						d="M 20,29 H 80 
-               C 80,29 94.5,28.8 94.53,66.71 
-               C 94.54,77.98 90.97,81.67 85.26,81.67 
-               C 79.55,81.67 75,75 75,75 
-               L 25,25"
-					></path>
-					<path class="line line2" d="M 20,50 H 80"></path>
-					<path
-						class="line line3"
-						d="M 20,71 H 80 
-               C 80,71 94.5,71.18 94.53,33.29 
-               C 94.54,22.02 90.97,18.33 85.26,18.33 
-               C 79.55,18.33 75,25 75,25 
-               L 25,75"
-					></path>
-				</svg>
-			</button>
-		</div>
-	</section>
 	<section class="hero">
 		<div class="siren-lights" style="z-index: 3;"></div>
 		<img class="bgHero" src={BGHero.src} style="z-index: 2;"/>
@@ -76,20 +43,6 @@ import BGHero from "@/assets/bgHero.jpg";
 		<h2>Bienvenido a la experiencia más brutal</h2>
 		<p>Desliza para descubrir lo que te espera.</p>
 	</section>
-
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			const button = document.getElementById("menu-toggle");
-
-			button.addEventListener("click", function () {
-				this.classList.toggle("opened");
-				this.setAttribute(
-					"aria-expanded",
-					this.classList.contains("opened"),
-				);
-			});
-		});
-	</script>
 	<script>
 		import gsap from "gsap";
 		import ScrollTrigger from "gsap/ScrollTrigger";
